@@ -11,7 +11,7 @@ namespace Basher\Tools\Database\Mysql;
  * $mysql->user('user', 'pass')
  *   ->database('dbname')
  *   ->output('/full/path/to/dump.sql')
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

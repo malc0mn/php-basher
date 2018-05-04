@@ -11,7 +11,7 @@ namespace Basher\Tools\Database\Mysql;
  * $mysql->addDatabase('dbname')
  *   ->addUser('user', 'pass')
  *   ->prepare()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

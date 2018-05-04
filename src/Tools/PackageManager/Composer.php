@@ -11,7 +11,7 @@ use Basher\CommandStack;
  * <?php
  * $composer = new Composer();
  * $composer->install()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

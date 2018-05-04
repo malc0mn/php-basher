@@ -21,7 +21,7 @@ use Basher\CommandStack;
  * $git = new Git();
  * $git->clone('https://my.com/repo.git', '/opt/approot')
  *   ->checkout('master')
- *   ->run($output)
+ *   ->run()
  * ;
  *
  * $git = new Git();
@@ -30,14 +30,14 @@ use Basher\CommandStack;
  *   ->push('origin','master')
  *   ->tag('0.6.0')
  *   ->push('origin','0.6.0')
- *   ->run($output)
+ *   ->run()
  * ;
  *
  * $git = new Git();
  * $git->add('doc/*')
  *   ->commit('doc updated')
  *   ->push()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

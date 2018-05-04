@@ -20,7 +20,7 @@ use Basher\CommandStack;
  * <?php
  * Lxc::start('container-name')
  *   ->daemon()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

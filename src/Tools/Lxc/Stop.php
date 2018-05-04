@@ -24,7 +24,7 @@ use Basher\CommandStack;
  * Lxc::stop('container-name')
  *   ->reboot()
  *   ->noWait()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

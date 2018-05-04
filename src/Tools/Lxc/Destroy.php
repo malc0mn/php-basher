@@ -14,7 +14,7 @@ use Basher\CommandStack;
  * <?php
  * Lxc::destroy('container-name')
  *   ->force()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

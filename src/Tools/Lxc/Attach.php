@@ -19,7 +19,7 @@ use Basher\CommandStack;
  * <?php
  * Lxc::attach('container-name')
  *   ->execute('ls -liah')
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

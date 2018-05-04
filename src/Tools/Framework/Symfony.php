@@ -12,7 +12,7 @@ use Basher\CommandStack;
  * $symfony = new Symfony();
  * $symfony->cacheClear('dev')
  *   ->assetsInstall()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```

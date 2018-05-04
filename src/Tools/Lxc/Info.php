@@ -13,7 +13,7 @@ use Basher\CommandStack;
  * <?php
  * Lxc::info('container-name')
  *   ->status()
- *   ->run($output)
+ *   ->run()
  * ;
  * ?>
  * ```
