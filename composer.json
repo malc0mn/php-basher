@@ -1,0 +1,31 @@
+{
+    "name": "malc0mn/php-basher",
+    "description": "Bash script generator and executor for PHP.",
+    "type": "library",
+    "homepage": "https://github.com/malc0mn/php-basher",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "malc0mn",
+            "email": "malc0mn@advalvas.be"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0",
+        "symfony/process": "^3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": ">=5.0",
+        "symfony/var-dumper": "^3.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Basher\\": "src/"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    }
+}
