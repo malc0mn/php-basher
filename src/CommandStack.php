@@ -106,15 +106,16 @@ abstract class CommandStack
      * Get the specified bash options.
      *
      * @param bool $array
+     * @param string $eol the end of line character for the 'set' options
      *
      * @return array|string
      */
-    private function getBashOptions($array = false)
+    private function getBashOptions($array = false, $eol = ';')
     {
         if (!$array) {
             $string = '';
             if (!empty($this->bashOptions)) {
-                $string = 'set ' . implode(' ', $this->bashOptions) . ';';
+                $string = 'set ' . implode(' ', $this->bashOptions) . $eol;
             }
             return $string;
         }
