@@ -87,20 +87,21 @@ abstract class CommandStack
     /**
      * Set options to change the behavior of the shell.
      *
-     * @param string $option
-     *
-     * @see http://tldp.org/LDP/abs/html/options.html
+     * @param string ...$options
      *
      * @return static
      *
-     * @throws \RuntimeException
+     * @see http://tldp.org/LDP/abs/html/options.html
+     *
      */
-    public function set($option)
+    public function set(...$options)
     {
-        if (!in_array($option[0], ['+', '-'])) {
-            throw new \RuntimeException("The option must start with a '-' or '+' sign!");
+        foreach ($options as $option) {
+            if (!in_array($option[0], ['+', '-'])) {
+                throw new \RuntimeException("The option must start with a '-' or '+' sign!");
+            }
+            $this->bashOptions[] = $option;
         }
-        $this->bashOptions[] = $option;
         return $this;
     }
 

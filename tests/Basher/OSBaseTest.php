@@ -193,8 +193,8 @@ class OSBaseTest extends TestCase
 
     public function testToString()
     {
-        $this->base->set('-e')
-            ->set('-v')
+        $this->base->set('-e', '-v')
+            ->set('-o pipefail')
             ->changeDir('/opt/approot')
             ->makeDir('build-new')
             ->delete('previous')

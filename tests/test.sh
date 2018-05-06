@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -e -v
+set -e -v -o pipefail
 
 cd /opt/approot
 mkdir -p build-new
