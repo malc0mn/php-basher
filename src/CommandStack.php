@@ -109,7 +109,7 @@ abstract class CommandStack
      *
      * @return array|string
      */
-    protected function getBashOptions($array = false)
+    private function getBashOptions($array = false)
     {
         if (!$array) {
             $string = '';
