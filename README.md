@@ -34,4 +34,38 @@ or edit composer.json and add:
 
 ## Usage
 
+An extremely simple example:
+
+```php
+<?php
+use Basher\Tools\OSBase;
+
+$base = new OSBase();
+
+$base->set('-e')
+    ->set('-v')
+    ->changeDir('/opt/approot')
+    ->makeDir('build-new')
+    ->delete('previous')
+    ->renameIfExists('current', 'previous')
+    ->link('build-new', 'current')
+;
+
+echo (string)$base;
+```
+Would generate this output:
+
+```bash
+#!/bin/bash
+
+set -e -v
+
+cd /opt/approot
+mkdir -p build-new
+rm -f previous
+if [ -d current -o -f current -o -L current ]; then mv -f current previous ; fi
+ln -s build-new current
+
+```
+
 TODO: complete this readme :/
