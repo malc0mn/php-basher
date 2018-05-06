@@ -157,15 +157,13 @@ abstract class CommandStack
             $options = [$options];
         }
 
-        $set = [
+        $this->stack[] = [
             'exec' => $this->executable,
             // Removes all NULL, FALSE and 'empty strings' but leaves 0 (zero)
             // values.
             'opts' => array_filter($options, 'strlen'),
             'join' => $this->allowFail($allowFail),
         ];
-
-        $this->stack[] = $set;
 
         return $this;
     }
