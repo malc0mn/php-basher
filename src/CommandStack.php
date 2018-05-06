@@ -148,22 +148,29 @@ abstract class CommandStack
      *                        the chain using a trailing semi-colon (;) so that
      *                        any of the following commands will be executed
      *                        regardless of the outcome.
+     * @param string|null $executable override the executable set in the
+     *                                'executable' property
      *
      * @return static
      */
-    protected function stack($options, $allowFail = false)
+    protected function stack($options, $allowFail = false, $executable = null)
     {
         if (!is_array($options)) {
             $options = [$options];
         }
 
-        $this->stack[] = [
-            'exec' => $this->executable,
+        $set = [
+            'exec' => $executable ?: $this->executable,
             // Removes all NULL, FALSE and 'empty strings' but leaves 0 (zero)
             // values.
             'opts' => array_filter($options, 'strlen'),
-            'join' => $this->allowFail($allowFail),
         ];
+
+        if ($allowFail !== null) {
+            $set['join'] = $this->allowFail($allowFail);
+        }
+
+        $this->stack[] = $set;
 
         return $this;
     }
