@@ -79,6 +79,29 @@ class OSBase extends CommandStack
     }
 
     /**
+     * Create a directory.
+     *
+     * @param string $dir
+     * @param bool $recursive
+     *
+     * @return static
+     */
+    public function makeDir($dir, $recursive = true)
+    {
+        $args = [];
+
+        if ($recursive) {
+            $args[] = '-p';
+        }
+
+        $args[] = $dir;
+
+        $this->stack($args, null, 'mkdir');
+
+        return $this;
+    }
+
+    /**
      * Add a rename or move command to the stack.
      *
      * @param string $source

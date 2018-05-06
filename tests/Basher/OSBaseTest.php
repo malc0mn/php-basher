@@ -68,6 +68,20 @@ class OSBaseTest extends TestCase
 
     // TODO: test link() allowFail option
 
+    public function testMakeDir()
+    {
+        $this->base->makeDir('/opt/approot/build', false);
+
+        $this->assertEquals('mkdir /opt/approot/build', $this->base->getStacked());
+    }
+
+    public function testMakeDirRecursive()
+    {
+        $this->base->makeDir('/opt/approot/build');
+
+        $this->assertEquals('mkdir -p /opt/approot/build', $this->base->getStacked());
+    }
+
     public function testMove()
     {
         $this->base->move('src/old-name.txt', 'dst/new-name.txt', false);
