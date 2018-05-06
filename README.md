@@ -34,6 +34,8 @@ or edit composer.json and add:
 
 ## Usage
 
+### Generating a bash script
+
 An extremely simple example:
 
 ```php
@@ -53,6 +55,7 @@ $base->set('-e', '-v')
 
 echo (string)$base;
 ```
+
 Would generate this output:
 
 ```bash
@@ -66,6 +69,45 @@ rm -f previous
 if [ -d current -o -f current -o -L current ]; then mv -f current previous ; fi
 ln -s build-new current
 
+```
+
+### Execute commands
+
+Say you would want to execute a command in a [linux container](https://linuxcontainers.org/)
+to deploy new code, you could do this:
+
+```php
+<?php
+
+use Basher\Tools\Vcs\Git;
+use Basher\Tools\Lxc\Lxc;
+
+$destination = 'build-' . date('Ymd-His');
+
+// Build the command stack we want to run INSIDE the container.
+$git = new Git();
+$commands = $git->cloneRepo('https://github.com/malc0mn/php-basher', "/opt/approot/$destination", 'master')
+    ->changeDir('/opt/approot')
+    ->delete('previous', true, true)
+    ->renameIfExists('current', 'previous', true)
+    ->link($destination, 'current', true)
+    ->service('php-fpm', 'reload')
+    ->getStacked()
+;
+
+// $commands now holds the command stack, joined by double ampersands: '&&' so
+// that the stack is aborted immediately when a command fails!
+
+// Attach to the container and run the above command set INSIDE it.
+$result = Lxc::attach('my-lxc-container')
+    ->execute($commands)
+    ->run()
+;
+
+// Perform execution result handling.
+if (!$result->wasSuccessful()) {
+    throw new \RuntimeException($result->getOutput());
+}
 ```
 
 TODO: complete this readme :/
