@@ -9,6 +9,9 @@ use Basher\CommandStack;
  */
 class OSBase extends CommandStack
 {
+    const TYPE_DIR = 'dir';
+    const TYPE_FILE = 'file';
+    const TYPE_LINK = 'link';
 
     /**
      * Add a change dir command to the stack.
@@ -118,11 +121,18 @@ class OSBase extends CommandStack
      * @param string $source
      * @param string $dest
      * @param bool $force
+     * @param array $types
      *
      * @return static
+     *
+     * @throws \RuntimeException
      */
-    public function moveIfExists($source, $dest, $force = true)
-    {
+    public function moveIfExists(
+        $source,
+        $dest,
+        $force = true,
+        array $types = [self::TYPE_DIR, self::TYPE_FILE, self::TYPE_LINK]
+    ) {
         // Set arguments.
         if ($force === true) {
             $args[] = '-f';
@@ -131,9 +141,27 @@ class OSBase extends CommandStack
         $args[] = $dest;
         $args[] = '; fi';
 
+        $check = [];
+        foreach ($types as $type) {
+            switch ($type) {
+                case self::TYPE_DIR:
+                    $check[] = "-d $source";
+                    break;
+                case self::TYPE_FILE:
+                    $check[] = "-f $source";
+                    break;
+                case self::TYPE_LINK:
+                    $check[] = "-L $source";
+                    break;
+                default:
+                    throw new \RuntimeException(sprintf('Unknown filetype %s!', $type));
+            }
+        }
+        $check = implode(' -o ', $check);
+
         // Add to stack.
         $this->stack[] = [
-            'exec' => "if [ -d $source -o -L $source -o -f $source ]; then mv",
+            'exec' => "if [ $check ]; then mv",
             'opts' => $args,
         ];
         return $this;
@@ -164,12 +192,17 @@ class OSBase extends CommandStack
      * @param string $source
      * @param string $dest
      * @param bool $force
+     * @param array $types
      *
      * @return static
      */
-    public function renameIfExists($source, $dest, $force = true)
-    {
-        return $this->moveIfExists($source, $dest, $force);
+    public function renameIfExists(
+        $source,
+        $dest,
+        $force = true,
+        array $types = [self::TYPE_DIR,self::TYPE_FILE, self::TYPE_LINK]
+    ) {
+        return $this->moveIfExists($source, $dest, $force, $types);
     }
 
     /**
