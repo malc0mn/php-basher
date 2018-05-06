@@ -190,4 +190,33 @@ class OSBaseTest extends TestCase
         $this->base->service('php-fpm', 'restart');
         $this->assertEquals('service php-fpm restart', $this->base->getStacked());
     }
+
+    public function testToString()
+    {
+        $this->base->set('-e')
+            ->set('-v')
+            ->changeDir('/opt/approot')
+            ->makeDir('build-new')
+            ->delete('previous')
+            ->renameIfExists('current', 'previous')
+            ->link('build-new', 'current')
+        ;
+
+        $reference = file_get_contents('tests/test.sh');
+
+        $this->assertEquals(
+            $reference,
+            (string)$this->base
+        );
+
+        $this->assertEquals(
+            $reference,
+            $this->base->generateScript()
+        );
+
+        $this->assertEquals(
+            $reference,
+            $this->base->prettyPrint()
+        );
+    }
 }

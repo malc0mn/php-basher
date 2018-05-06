@@ -15,6 +15,8 @@ use Symfony\Component\Process\ProcessBuilder;
 
 abstract class CommandStack
 {
+    const SHEBANG = '#!/bin/bash';
+
     /**
      * @var string The main CLI executable to call.
      */
@@ -365,5 +367,47 @@ abstract class CommandStack
         }
 
         return new Result($process->getExitCode(), $output);
+    }
+
+    /**
+     * @see __toString()
+     */
+    public function generateScript()
+    {
+        return $this->__toString();
+    }
+
+    /**
+     * @see __toString()
+     */
+    public function prettyPrint()
+    {
+        return $this->__toString();
+    }
+
+    /**
+     * Print out the command stack as a usable bash script.
+     *
+     * @return string
+     */
+    public function __toString()
+    {
+        $script = self::SHEBANG . PHP_EOL . PHP_EOL;
+
+        // If here to prevent adding excess whitespace.
+        if ($opts = $this->getBashOptions(false, PHP_EOL)) {
+            $script .= $opts . PHP_EOL;
+        }
+
+        foreach ($this->stack as $command) {
+            $script .= $command['exec'] . ' ' . implode(' ', $command['opts']);
+            if (isset($command['join']) && !empty($command['join'])) {
+                $script .= $command['join'];
+            } else {
+                $script .= PHP_EOL;
+            }
+        }
+
+        return $script;
     }
 }
