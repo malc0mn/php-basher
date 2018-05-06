@@ -235,7 +235,7 @@ abstract class CommandStack
 
             // Add join string unless its the last item.
             if ($join !== null && $key != $last) {
-                $script .= isset($command['join'])  && !empty($command['join']) ? $command['join'] : $join;
+                $script .= isset($command['join']) && !empty($command['join']) ? $command['join'] : $join;
             }
             $chain[] = $script;
         }
