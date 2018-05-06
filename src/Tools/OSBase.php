@@ -94,7 +94,7 @@ class OSBase extends CommandStack
      *
      * @return static
      */
-    public function rename($source, $dest, $force = true, $allowFail = false)
+    public function move($source, $dest, $force = true, $allowFail = false)
     {
         // Set arguments.
         if ($force === true) {
@@ -121,7 +121,7 @@ class OSBase extends CommandStack
      *
      * @return static
      */
-    public function renameIfExists($source, $dest, $force = true)
+    public function moveIfExists($source, $dest, $force = true)
     {
         // Set arguments.
         if ($force === true) {
@@ -139,6 +139,38 @@ class OSBase extends CommandStack
         return $this;
     }
 
+    /**
+     * An alias for move().
+     *
+     * @see move()
+     *
+     * @param string $source
+     * @param string $dest
+     * @param bool $force
+     * @param bool $allowFail
+     *
+     * @return static
+     */
+    public function rename($source, $dest, $force = true, $allowFail = false)
+    {
+        return $this->move($source, $dest, $force, $allowFail);
+    }
+
+    /**
+     * An alias for moveIfExists().
+     *
+     * @see moveIfExists()
+     *
+     * @param string $source
+     * @param string $dest
+     * @param bool $force
+     *
+     * @return static
+     */
+    public function renameIfExists($source, $dest, $force = true)
+    {
+        return $this->moveIfExists($source, $dest, $force);
+    }
 
     /**
      * Add access controll lists to files and/or directories.
