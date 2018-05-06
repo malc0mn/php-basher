@@ -10,7 +10,7 @@
 
 namespace Basher\Tools\Vcs;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Run Git commands. You can use chained() to indicate that all commands should
@@ -42,7 +42,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Git extends CommandStack
+class Git extends OSBase
 {
     /**
      * Class constructor.

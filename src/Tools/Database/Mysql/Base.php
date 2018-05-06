@@ -2,9 +2,9 @@
 
 namespace Basher\Tools\Database\Mysql;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
-abstract class Base extends CommandStack
+abstract class Base extends OSBase
 {
     /**
      * Class constructor.

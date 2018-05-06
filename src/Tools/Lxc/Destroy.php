@@ -2,7 +2,7 @@
 
 namespace Basher\Tools\Lxc;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Destroy a container.
@@ -19,7 +19,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Destroy extends CommandStack
+class Destroy extends OSBase
 {
     /**
      * Class constructor.

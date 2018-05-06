@@ -2,7 +2,7 @@
 
 namespace Basher\Tools\PackageManager;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Composer: the PHP package manager.
@@ -16,7 +16,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Composer extends CommandStack
+class Composer extends OSBase
 {
     /**
      * Class constructor.

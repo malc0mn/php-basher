@@ -2,7 +2,7 @@
 
 namespace Basher\Tools\Lxc;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Query information about a container.
@@ -18,7 +18,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Info extends CommandStack
+class Info extends OSBase
 {
     /**
      * Class constructor.

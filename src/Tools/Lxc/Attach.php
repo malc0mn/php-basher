@@ -2,7 +2,7 @@
 
 namespace Basher\Tools\Lxc;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Start a process inside a running container.
@@ -24,7 +24,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Attach extends CommandStack
+class Attach extends OSBase
 {
     /**
      * @var string

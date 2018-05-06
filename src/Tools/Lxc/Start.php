@@ -2,7 +2,7 @@
 
 namespace Basher\Tools\Lxc;
 
-use Basher\CommandStack;
+use Basher\Tools\OSBase;
 
 /**
  * Run an application inside a container.
@@ -25,7 +25,7 @@ use Basher\CommandStack;
  * ?>
  * ```
  */
-class Start extends CommandStack
+class Start extends OSBase
 {
     /**
      * Class constructor.
