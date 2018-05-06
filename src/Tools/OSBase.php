@@ -22,10 +22,7 @@ class OSBase extends CommandStack
      */
     public function changeDir($dir)
     {
-        $this->stack[] = [
-            'exec' => 'cd',
-            'opts' => [$dir],
-        ];
+        $this->stack($dir, null, 'cd');
         return $this;
     }
 
@@ -50,10 +47,7 @@ class OSBase extends CommandStack
         }
         $args[] = $dirOrFile;
 
-        $this->stack[] = [
-            'exec' => 'rm',
-            'opts' => $args,
-        ];
+        $this->stack($args, null, 'rm');
 
         return $this;
     }
@@ -79,11 +73,8 @@ class OSBase extends CommandStack
         $args[] = $source;
         $args[] = $dest;
 
-        $this->stack[] = [
-            'exec' => 'ln',
-            'opts' => $args,
-            'join' => $this->allowFail($allowFail),
-        ];
+        $this->stack($args, $allowFail, 'ln');
+
         return $this;
     }
 
@@ -106,12 +97,8 @@ class OSBase extends CommandStack
         $args[] = $source;
         $args[] = $dest;
 
-        // Add to stack.
-        $this->stack[] = [
-            'exec' => 'mv',
-            'opts' => $args,
-            'join' => $this->allowFail($allowFail),
-        ];
+        $this->stack($args, $allowFail, 'mv');
+
         return $this;
     }
 
@@ -159,11 +146,8 @@ class OSBase extends CommandStack
         }
         $check = implode(' -o ', $check);
 
-        // Add to stack.
-        $this->stack[] = [
-            'exec' => "if [ $check ]; then mv",
-            'opts' => $args,
-        ];
+        $this->stack($args, null, "if [ $check ]; then mv");
+
         return $this;
     }
 
@@ -237,11 +221,7 @@ class OSBase extends CommandStack
         $args[] = "-m u:\"$user\":$permissions";
         $args[] = $destination;
 
-        $this->stack[] = [
-            'exec' => 'setfacl',
-            'opts' => $args,
-            'join' => $this->allowFail($allowFail),
-        ];
+        $this->stack($args, $allowFail, 'setfacl');
 
         return $this;
     }
@@ -265,11 +245,7 @@ class OSBase extends CommandStack
             $action
         ];
 
-        $this->stack[] = [
-            'exec' => 'service',
-            'opts' => $args,
-            'join' => $this->allowFail($allowFail),
-        ];
+        $this->stack($args, $allowFail, 'service');
 
         return $this;
     }
