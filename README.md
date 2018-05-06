@@ -86,8 +86,11 @@ $destination = 'build-' . date('Ymd-His');
 
 // Build the command stack we want to run INSIDE the container.
 $git = new Git();
-$commands = $git->cloneRepo('https://github.com/malc0mn/php-basher', "/opt/approot/$destination", 'master')
-    ->changeDir('/opt/approot')
+$commands = $git->cloneRepo(
+      'https://github.com/malc0mn/php-basher',
+      "/opt/approot/$destination",
+      'master'
+    )->changeDir('/opt/approot')
     ->delete('previous', true, true)
     ->renameIfExists('current', 'previous', true)
     ->link($destination, 'current', true)
