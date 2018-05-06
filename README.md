@@ -42,13 +42,13 @@ use Basher\Tools\OSBase;
 
 $base = new OSBase();
 
-$base->set('-e')
-    ->set('-v')
+$base->set('-e', '-v')
     ->changeDir('/opt/approot')
     ->makeDir('build-new')
     ->delete('previous')
     ->renameIfExists('current', 'previous')
     ->link('build-new', 'current')
+    ->set('-o pipefail')
 ;
 
 echo (string)$base;
@@ -58,7 +58,7 @@ Would generate this output:
 ```bash
 #!/bin/bash
 
-set -e -v
+set -e -v -o pipefail
 
 cd /opt/approot
 mkdir -p build-new
