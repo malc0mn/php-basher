@@ -58,13 +58,19 @@ class Create extends Base
      * Create a new database.
      *
      * @param string $dbname
+     * @param bool $ifNotExists
      *
      * @return self
      */
-    public function addDatabase($dbname)
+    public function addDatabase($dbname, $ifNotExists = false)
     {
+        $exists = '';
+        if ($ifNotExists !== false) {
+            // Trailing space!!!
+            $exists = 'IF NOT EXISTS ';
+        }
         $this->dbname = $this->sanitize($dbname);
-        $this->sql .= sprintf('CREATE DATABASE `%s`;', $this->dbname);
+        $this->sql .= sprintf("CREATE DATABASE $exists`%s`;", $this->dbname);
 
         return $this;
     }
