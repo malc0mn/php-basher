@@ -12,7 +12,7 @@ class OSBaseTest extends TestCase
      */
     protected $base;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->base = new OSBase();
     }

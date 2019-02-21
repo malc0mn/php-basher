@@ -12,7 +12,7 @@ class OneLinerTest extends TestCase
      */
     protected $oneLiner;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->oneLiner = new OneLiner();
     }
