@@ -33,7 +33,7 @@ abstract class CommandStack
     protected $bashOptions = [];
 
     /**
-     * @var array A (set of) command(s) that will be run.
+     * @var Command[] A (set of) command(s) that will be run.
      */
     protected $stack = [];
 
@@ -58,7 +58,6 @@ abstract class CommandStack
      * @var array
      */
     protected $allowedConcats = ['', ' ', '='];
-
 
     /**
      * @param $executable
@@ -109,7 +108,7 @@ abstract class CommandStack
      * Get the specified bash options.
      *
      * @param bool $array
-     * @param string $eol the end of line character for the 'set' options
+     * @param string $eol The end of line character for the 'set' options
      *
      * @return array|string
      */
@@ -127,54 +126,33 @@ abstract class CommandStack
     }
 
     /**
-     * For internal use only.
-     *
-     * @param bool $allowFail
-     *
-     * @return null|string
-     */
-    protected function allowFail($allowFail)
-    {
-        $join = null;
-        if ($allowFail === true) {
-            $join = '; ';
-        }
-
-        return $join;
-    }
-
-    /**
      * Push a command to the command execution stack.
      *
      * @param string|array $options
-     * @param bool $allowFail when the command will be executed as 'chained',
+     * @param bool $allowFail When the command will be executed as 'chained',
      *                        this particular part of the stack will be added to
      *                        the chain using a trailing semi-colon (;) so that
      *                        any of the following commands will be executed
-     *                        regardless of the outcome.
-     * @param string|null $executable override the executable set in the
+     *                        regardless of the outcome of the previous command.
+     * @param string|null $executable Override the executable set in the
      *                                'executable' property
+     * @param array $envVars An associative array with the variable name as key
+     *                       and the value as, wait for it, the value.
      *
      * @return static
      */
-    protected function stack($options, $allowFail = false, $executable = null)
-    {
-        if (!is_array($options)) {
-            $options = [$options];
-        }
-
-        $set = [
-            'exec' => $executable ?: $this->executable,
-            // Removes all NULL, FALSE and 'empty strings' but leaves 0 (zero)
-            // values.
-            'opts' => array_filter($options, 'strlen'),
-        ];
-
-        if ($allowFail !== null) {
-            $set['join'] = $this->allowFail($allowFail);
-        }
-
-        $this->stack[] = $set;
+    protected function stack(
+        $options,
+        $allowFail = false,
+        $executable = null,
+        array $envVars = []
+    ) {
+        $this->stack[] = new Command(
+            $executable ?: $this->executable,
+            $options,
+            $envVars,
+            $allowFail
+        );
 
         return $this;
     }
@@ -198,7 +176,7 @@ abstract class CommandStack
             ));
         }
 
-        if ($concat == ' ') {
+        if ($concat === ' ') {
             $this->options[] = $option;
             if ($optionArgument != '') {
                 $this->options[] = $optionArgument;
@@ -222,29 +200,30 @@ abstract class CommandStack
     }
 
     /**
-     * Return all of the commands to be executed as a string, concatenated with
-     * the $join parameter or as an array.
+     * Return all of the commands to be executed as a 'oneliner' string or as an
+     * array.
      *
-     * @param string|null $join
+     * @param bool $asArray Set to true to return the command stack as an array
+     *                      where each element is a ready to be executed string.
      *
      * @return array|string
      */
-    public function getStacked($join = ' && ')
+    public function getStacked($asArray = false)
     {
         $last = count($this->stack) - 1;
 
         $chain = [];
         foreach ($this->stack as $key => $command) {
-            $script = $command['exec'] . ' ' . implode(' ', $command['opts']);
+            $script = $command->generateScript();
 
             // Add join string unless its the last item.
-            if ($join !== null && $key != $last) {
-                $script .= isset($command['join']) && !empty($command['join']) ? $command['join'] : $join;
+            if (!$asArray && $key !== $last) {
+                $script .= $command->getJoin();
             }
             $chain[] = $script;
         }
 
-        if ($join !== null) {
+        if (!$asArray) {
             return $this->getBashOptions() . implode('', $chain);
         }
 
@@ -265,10 +244,10 @@ abstract class CommandStack
     /**
      * Run the command.
      *
-     * @param bool $dryrun when set to true, no commands will be executed, only
+     * @param bool $dryrun When set to true, no commands will be executed, only
      *                     printed.
-     * @param bool $raw when set to true, no escaping will be performed!
-     * @param bool $splitOutput when set to false, you must make sure that
+     * @param bool $raw When set to true, no escaping will be performed!
+     * @param bool $splitOutput When set to false, you must make sure that
      *                          stdErr and stdOut are returned in a single
      *                          stream.
      *
@@ -401,12 +380,7 @@ abstract class CommandStack
         }
 
         foreach ($this->stack as $command) {
-            $script .= $command['exec'] . ' ' . implode(' ', $command['opts']);
-            if (isset($command['join']) && !empty($command['join'])) {
-                $script .= $command['join'];
-            } else {
-                $script .= PHP_EOL;
-            }
+            $script .= $command->generateScript(true);
         }
 
         return $script;

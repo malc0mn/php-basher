@@ -18,12 +18,18 @@ class OneLiner extends OSBase
      *                        the chain using a trailing semi-colon (;) so that
      *                        any of the following commands will be executed
      *                        regardless of the outcome.
+     * @param array $envVars An associative array with the variable name as key
+     *                       and the value as, well, value.
      *
      * @return static
      */
-    public function addCmd($executable, $options, $allowFail = false)
-    {
-        return $this->stack($options, $allowFail, $executable);
+    public function addCmd(
+        $executable,
+        $options,
+        $allowFail = false,
+        array $envVars = []
+    ) {
+        return $this->stack($options, $allowFail, $executable, $envVars);
     }
 
     /**
@@ -36,12 +42,18 @@ class OneLiner extends OSBase
      *                        the chain using a trailing semi-colon (;) so that
      *                        any of the following commands will be executed
      *                        regardless of the outcome.
+     * @param array $envVars An associative array with the variable name as key
+     *                       and the value as, well, value.
      *
      * @return static
      */
-    public function prependCmd($executable, $options, $allowFail = false)
-    {
-        $this->addCmd($executable, $options, $allowFail);
+    public function prependCmd(
+        $executable,
+        $options,
+        $allowFail = false,
+        array $envVars = []
+    ) {
+        $this->addCmd($executable, $options, $allowFail, $envVars);
         $this->stack = array_merge(array_splice($this->stack, -1), $this->stack);
         return $this;
     }
