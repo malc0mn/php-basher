@@ -24,6 +24,10 @@ class Result
      */
     private $output;
 
+    /**
+     * @var bool
+     */
+    private $dryrun;
 
     /**
      * Result constructor.
@@ -31,10 +35,11 @@ class Result
      * @param int $exitCode
      * @param string $output
      */
-    public function __construct($exitCode, $output)
+    public function __construct($exitCode, $output, $dryrun = false)
     {
         $this->exitCode = $exitCode;
         $this->output = $output;
+        $this->dryrun = $dryrun;
     }
 
     /**
@@ -67,5 +72,13 @@ class Result
     public function wasSuccessful()
     {
         return $this->exitCode === self::EXITCODE_OK;
+    }
+
+    /**
+     * @return bool
+     */
+    public function wasDryrun()
+    {
+        return $this->dryrun;
     }
 }

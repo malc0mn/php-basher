@@ -272,7 +272,8 @@ abstract class CommandStack
             if ($dryrun) {
                 return new Result(
                     0,
-                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine())
+                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine()),
+                    true
                 );
             }
 
@@ -304,7 +305,8 @@ abstract class CommandStack
             if ($dryrun) {
                 $result = new Result(
                     0,
-                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine())
+                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine()),
+                    true
                 );
                 continue;
             }
