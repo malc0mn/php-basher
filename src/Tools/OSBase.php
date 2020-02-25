@@ -272,4 +272,28 @@ class OSBase extends CommandStack
 
         return $this;
     }
+
+    /**
+     * Perform an action on a given systemd service.
+     *
+     * @param string $name
+     * @param string $action
+     * @param bool $allowFail
+     *
+     * @return static
+     */
+    public function systemctl(
+        $name,
+        $action = 'reload',
+        $allowFail = false
+    ) {
+        $args = [
+            $action,
+            $name,
+        ];
+
+        $this->stack($args, $allowFail, 'systemctl');
+
+        return $this;
+    }
 }
