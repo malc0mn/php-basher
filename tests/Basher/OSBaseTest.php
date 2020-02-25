@@ -191,6 +191,19 @@ class OSBaseTest extends TestCase
         $this->assertEquals('service php-fpm restart', $this->base->getStacked());
     }
 
+
+    public function testSystemctlReload()
+    {
+        $this->base->systemctl('apache2');
+        $this->assertEquals('systemctl reload apache2', $this->base->getStacked());
+    }
+
+    public function testSystemctlRestart()
+    {
+        $this->base->systemctl('php-fpm', 'restart');
+        $this->assertEquals('systemctl restart php-fpm', $this->base->getStacked());
+    }
+
     public function testToString()
     {
         $this->base->set('-e', '-v')
