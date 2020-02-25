@@ -178,11 +178,11 @@ abstract class CommandStack
 
         if ($concat === ' ') {
             $this->options[] = $option;
-            if ($optionArgument != '') {
+            if ($optionArgument !== '') {
                 $this->options[] = $optionArgument;
             }
         } else {
-            $this->options[] = ($optionArgument == '') ? $option : $option . $concat . $optionArgument;
+            $this->options[] = ($optionArgument === '') ? $option : $option . $concat . $optionArgument;
         }
 
         return $this;
