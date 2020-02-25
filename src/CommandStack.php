@@ -339,6 +339,7 @@ abstract class CommandStack
 
         $process->run();
 
+        // TODO: this must be done better!
         if ($splitOutput === true) {
             $output = 'StdOut:' . PHP_EOL;
             $output .= $process->getOutput();
