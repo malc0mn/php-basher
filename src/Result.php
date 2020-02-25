@@ -54,6 +54,14 @@ class Result
     }
 
     /**
+     * @return array
+     */
+    public function getOutputAsArray()
+    {
+        return explode("\n", $this->getOutput());
+    }
+
+    /**
      * @return bool
      */
     public function wasSuccessful()
