@@ -24,7 +24,7 @@ class Zfs extends OSBase
      *
      * @return self
      */
-    public function list($zpool = null, $fields = [], $noHeader = true, $sizeInBytes = true)
+    public function list($zpool = null, $fields = [], $noHeader = true, $sizeInBytes = true, $recursive = false)
     {
         $args = ['list'];
 
@@ -41,6 +41,10 @@ class Zfs extends OSBase
         // Display numbers in parsable (exact) values.
         if ($sizeInBytes) {
             $args[] = '-p';
+        }
+
+        if ($recursive) {
+            $args[] = '-r';
         }
 
         // A comma-separated list of properties to display. The property must be:
