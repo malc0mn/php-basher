@@ -265,7 +265,7 @@ class OSBase extends CommandStack
     ) {
         $args = [
             $name,
-            $action
+            $action,
         ];
 
         $this->stack($args, $allowFail, 'service');
