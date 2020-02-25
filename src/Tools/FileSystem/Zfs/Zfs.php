@@ -65,4 +65,35 @@ class Zfs extends OSBase
 
         return $this->stack($args);
     }
+
+    public function setProperty($property, $value, $dataset)
+    {
+        $args = ['set'];
+
+        $args[] = sprintf("%s='%s'", $property, $value);
+        $args[] = $dataset;
+
+        return $this->stack($args);
+    }
+
+    public function unmount($dataset)
+    {
+        $args = ['umount'];
+        $args[] = $dataset;
+
+        return $this->stack($args);
+    }
+
+    public function destroy($dataset, $recursive = true)
+    {
+        $args = ['destroy'];
+
+        if ($recursive) {
+            $args[] = '-r';
+        }
+
+        $args[] = $dataset;
+
+        return $this->stack($args);
+    }
 }
