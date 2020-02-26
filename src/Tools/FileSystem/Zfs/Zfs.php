@@ -46,7 +46,7 @@ class Zfs
     }
 
     /**
-     * Call zfs set.
+     * Call zfs unmount.
      *
      * @param string $dataset
      *
