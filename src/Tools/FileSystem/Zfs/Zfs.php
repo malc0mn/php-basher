@@ -34,6 +34,18 @@ class Zfs
     }
 
     /**
+     * Call zfs mount.
+     *
+     * @param string $dataset
+     *
+     * @return ZfsMount
+     */
+    public static function mount($dataset)
+    {
+        return new ZfsMount($dataset);
+    }
+
+    /**
      * Call zfs set.
      *
      * @param string $dataset
