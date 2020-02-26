@@ -2,98 +2,58 @@
 
 namespace Basher\Tools\FileSystem\Zfs;
 
-use Basher\Tools\OSBase;
-
-class Zfs extends OSBase
+/**
+ * PHP abstraction of the ZFS commands toolset.
+ *
+ * @package Basher\Tools\FileSystem\Zfs
+ */
+class Zfs
 {
     /**
-     * Class constructor.
+     * Call zfs list.
+     *
+     * @param string|null $dataset
+     *
+     * @return ZfsDestroy
      */
-    public function __construct()
+    public static function destroy($dataset)
     {
-        $this->executable('zfs');
+        return new ZfsDestroy($dataset);
     }
 
     /**
-     * List one or more zfs pools.
+     * Call zfs list.
      *
-     * @param string $zpool
-     * @param array|string $fields
-     * @param bool $noHeader
-     * @param bool $sizeInBytes
+     * @param string|null $dataset
      *
-     * @return self
+     * @return ZfsList
      */
-    public function list($zpool = null, $fields = [], $noHeader = true, $sizeInBytes = true, $recursive = false)
+    public static function list($dataset = null)
     {
-        $args = ['list'];
-
-        if (!empty($zpool)) {
-            $args[] = $zpool;
-        }
-
-        // Used for scripting mode.  Do not print headers and separate fields by
-        // a single tab instead of arbitrary white space.
-        if ($noHeader) {
-            $args[] = '-H';
-        }
-
-        // Display numbers in parsable (exact) values.
-        if ($sizeInBytes) {
-            $args[] = '-p';
-        }
-
-        if ($recursive) {
-            $args[] = '-r';
-        }
-
-        // A comma-separated list of properties to display. The property must be:
-        //  - One of the properties described in the Native Properties section
-        //  - A user property
-        //  - The value name to display the dataset name
-        //  - The value space to display space usage properties on file systems
-        //    and volumes. This is a shortcut for specifying
-        //    -o name,avail,used,usedsnap,usedds,usedrefreserv,usedchild
-        //    -t filesystem,volume syntax.
-        if (!empty($fields)) {
-            if (!is_array($fields)) {
-                $fields = [$fields];
-            }
-            $args[] = '-o';
-            $args[] = implode(',', $fields);
-        }
-
-        return $this->stack($args);
+        return new ZfsList($dataset);
     }
 
-    public function setProperty($property, $value, $dataset)
+    /**
+     * Call zfs set.
+     *
+     * @param string $dataset
+     *
+     * @return ZfsSet
+     */
+    public static function set($dataset)
     {
-        $args = ['set'];
-
-        $args[] = sprintf("%s='%s'", $property, $value);
-        $args[] = $dataset;
-
-        return $this->stack($args);
+        return new ZfsSet($dataset);
     }
 
-    public function unmount($dataset)
+    /**
+     * Call zfs set.
+     *
+     * @param string $dataset
+     *
+     * @return ZfsUnmount
+     */
+    public static function unmount($dataset)
     {
-        $args = ['umount'];
-        $args[] = $dataset;
-
-        return $this->stack($args);
-    }
-
-    public function destroy($dataset, $recursive = true)
-    {
-        $args = ['destroy'];
-
-        if ($recursive) {
-            $args[] = '-r';
-        }
-
-        $args[] = $dataset;
-
-        return $this->stack($args);
+        return new ZfsUnmount($dataset);
     }
 }

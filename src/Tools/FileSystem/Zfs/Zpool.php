@@ -2,61 +2,22 @@
 
 namespace Basher\Tools\FileSystem\Zfs;
 
-use Basher\Tools\OSBase;
-
-class Zpool extends OSBase
+/**
+ * PHP abstraction of the ZFS zpool commands toolset.
+ *
+ * @package Basher\Tools\FileSystem\Zfs
+ */
+class Zpool
 {
     /**
-     * Class constructor.
-     */
-    public function __construct()
-    {
-        $this->executable('zpool');
-    }
-
-    /**
-     * List one or more zfs pools.
+     * Call zpool list.
      *
-     * @param string $zpool
-     * @param array|string $fields
-     * @param bool $noHeader
-     * @param bool $sizeInBytes
+     * @param string|null $dataset
      *
-     * @return self
+     * @return ZpoolList
      */
-    public function list($zpool = null, $fields = [], $noHeader = true, $sizeInBytes = true)
+    public static function list($dataset = null)
     {
-        $args = ['list'];
-
-        if (!empty($zpool)) {
-            $args[] = $zpool;
-        }
-
-        // Used for scripting mode.  Do not print headers and separate fields by
-        // a single tab instead of arbitrary white space.
-        if ($noHeader) {
-            $args[] = '-H';
-        }
-
-        // Display numbers in parsable (exact) values.
-        if ($sizeInBytes) {
-            $args[] = '-p';
-        }
-
-        // A comma-separated list of properties to display. The property must be:
-        //  - One of the properties described in the Native Properties section
-        //  - A user property
-        //  - The value name to display the dataset name
-        //  - The value space to display space usage properties on file systems
-        //    and volumes. This is a shortcut for specifying -o
-        if (!empty($fields)) {
-            if (!is_array($fields)) {
-                $fields = [$fields];
-            }
-            $args[] = '-o';
-            $args[] = implode(',', $fields);
-        }
-
-        return $this->stack($args);
+        return new ZpoolList($dataset);
     }
 }
