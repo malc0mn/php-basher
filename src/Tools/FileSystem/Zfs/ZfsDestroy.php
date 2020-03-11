@@ -35,7 +35,7 @@ class ZfsDestroy extends OSBase
     }
 
     /**
-     * Recursively display any children of the dataset on the command line.
+     * Recursively destroy all children.
      *
      * @return self
      */
