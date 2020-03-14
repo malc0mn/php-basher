@@ -23,6 +23,7 @@ class OSBase extends CommandStack
     public function changeDir($dir)
     {
         $this->stack($dir, null, 'cd');
+
         return $this;
     }
 

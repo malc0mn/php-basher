@@ -30,7 +30,7 @@ class Command
      * @param string $executable
      * @param string| array $options
      * @param array $envVars
-     * @param string|null $join
+     * @param string|null $allowFail
      */
     public function __construct(
         $executable,
