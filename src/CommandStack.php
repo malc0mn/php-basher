@@ -71,7 +71,10 @@ abstract class CommandStack
     }
 
     /**
-     * Changes the working directory of the command.
+     * Changes the working directory of the command. This will only be used when
+     * calling run() method!
+     *
+     * @see executeCommand()
      *
      * @param $dir
      *
@@ -349,6 +352,8 @@ abstract class CommandStack
 
     /**
      * @see __toString()
+     *
+     * @return string
      */
     public function generateScript()
     {
@@ -357,6 +362,8 @@ abstract class CommandStack
 
     /**
      * @see __toString()
+     *
+     * @return string
      */
     public function prettyPrint()
     {
