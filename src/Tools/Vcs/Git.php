@@ -62,7 +62,7 @@ class Git extends OSBase
      *
      * @return static
      */
-    public function cloneRepo($repo, $to = '', $branchOrTag = '', $shallow = true)
+    public function clone($repo, $to = '', $branchOrTag = '', $shallow = true)
     {
         $args = ['clone'];
 
