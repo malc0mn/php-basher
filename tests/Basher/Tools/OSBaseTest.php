@@ -1,6 +1,6 @@
 <?php
 
-namespace Basher\Tests;
+namespace Basher\Tests\Tools;
 
 use Basher\Tools\OSBase;
 use PHPUnit\Framework\TestCase;
