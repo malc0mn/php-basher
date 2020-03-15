@@ -15,6 +15,11 @@ class Result
     const EXITCODE_OK = 0;
 
     /**
+     * @var string
+     */
+    private $commandline;
+
+    /**
      * @var int
      */
     private $exitCode;
@@ -32,14 +37,25 @@ class Result
     /**
      * Result constructor.
      *
+     * @param string $commandline
      * @param int $exitCode
      * @param string $output
+     * @param bool $dryrun
      */
-    public function __construct($exitCode, $output, $dryrun = false)
+    public function __construct($commandline, $exitCode, $output, $dryrun = false)
     {
+        $this->commandline = $commandline;
         $this->exitCode = $exitCode;
         $this->output = $output;
         $this->dryrun = $dryrun;
+    }
+
+    /**
+     * @return string
+     */
+    public function getCommandline()
+    {
+        return $this->commandline;
     }
 
     /**

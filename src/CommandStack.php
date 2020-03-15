@@ -273,9 +273,11 @@ abstract class CommandStack
 
             $process = new Process($this->getStacked());
             if ($dryrun) {
+                $commandline = $process->getCommandLine();
                 return new Result(
+                    $commandline,
                     0,
-                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine()),
+                    sprintf('Dryrun: %s would have been executed.', $commandline),
                     true
                 );
             }
@@ -294,9 +296,11 @@ abstract class CommandStack
         foreach ($this->stack as $command) {
             $process = $command->toProcess($escape);
             if ($dryrun) {
+                $commandline = $process->getCommandLine();
                 $result = new Result(
+                    $commandline,
                     0,
-                    sprintf('Dryrun: %s would have been executed.', $process->getCommandLine()),
+                    sprintf('Dryrun: %s would have been executed.', $commandline),
                     true
                 );
                 continue;
@@ -340,7 +344,7 @@ abstract class CommandStack
             $output = $process->getOutput();
         }
 
-        return new Result($process->getExitCode(), $output);
+        return new Result($process->getCommandLine(), $process->getExitCode(), $output);
     }
 
     /**
