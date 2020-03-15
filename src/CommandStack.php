@@ -11,7 +11,6 @@
 namespace Basher;
 
 use Symfony\Component\Process\Process;
-use Symfony\Component\Process\ProcessBuilder;
 
 abstract class CommandStack
 {
@@ -250,7 +249,7 @@ abstract class CommandStack
      *
      * @param bool $dryrun When set to true, no commands will be executed, only
      *                     printed.
-     * @param bool $raw When set to true, no escaping will be performed!
+     * @param bool $escape When set to false, no escaping will be performed!
      * @param bool $splitOutput When set to false, you must make sure that
      *                          stdErr and stdOut are returned in a single
      *                          stream.
@@ -259,7 +258,7 @@ abstract class CommandStack
      *
      * @throws \RuntimeException
      */
-    public function run($dryrun = false, $raw = true, $splitOutput = true)
+    public function run($dryrun = false, $escape = false, $splitOutput = true)
     {
         $result = null;
 
@@ -293,19 +292,7 @@ abstract class CommandStack
         }
 
         foreach ($this->stack as $command) {
-            // Create the CLI command to be executed.
-            if ($raw === true) {
-                // No escaping...
-                $process = new Process($command['exec'] . ' ' . implode(' ', $command['opts']));
-            } else {
-                // The getProcess() call performs escaping on ALL options. This
-                // might not be compatible with all commands!
-                $builder = new ProcessBuilder($command['opts']);
-                $process = $builder->setPrefix($command['exec'])
-                    ->getProcess()
-                ;
-            }
-
+            $process = $command->toProcess($escape);
             if ($dryrun) {
                 $result = new Result(
                     0,

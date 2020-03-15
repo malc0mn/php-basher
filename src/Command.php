@@ -2,6 +2,8 @@
 
 namespace Basher;
 
+use Symfony\Component\Process\Process;
+
 class Command
 {
     /**
@@ -79,6 +81,34 @@ class Command
             implode(' ', $this->options) .
             ($newLine ? PHP_EOL : '')
         ;
+    }
+
+    /**
+     * Convert the command to a Symfony Process class.
+     *
+     * @param bool $escape
+     *
+     * @return Process
+     */
+    public function toProcess($escape = true)
+    {
+        // Create the CLI command to be executed.
+        if (false === $escape) {
+            // No escaping...
+            $commandline = $this->generateScript();
+        } else {
+            // Passing an array to the Process constructor performs escaping
+            // on ALL options. This might not be compatible with all commands!
+            $commandline = array_merge([$this->executable], $this->options);
+        }
+
+        $process = new Process($commandline);
+
+        if ($this->envVars) {
+            $process->setEnv($this->envVars);
+        }
+
+        return $process;
     }
 
     /**
