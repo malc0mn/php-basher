@@ -49,7 +49,7 @@ class Git extends OSBase
      */
     public function __construct()
     {
-        $this->executable = 'git';
+        $this->executable('git');
     }
 
     /**
