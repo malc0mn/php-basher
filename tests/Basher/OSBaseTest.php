@@ -66,8 +66,6 @@ class OSBaseTest extends TestCase
         $this->assertEquals('ln real/goes/first link/to/here', $this->base->getStacked());
     }
 
-    // TODO: test link() allowFail option
-
     public function testMakeDir()
     {
         $this->base->makeDir('/opt/approot/build', false);
@@ -95,8 +93,6 @@ class OSBaseTest extends TestCase
 
         $this->assertEquals('mv -f src/old-name.txt dst/new-name.txt', $this->base->getStacked());
     }
-
-    // TODO: test move() allowFail option
 
     public function testMoveIfExists()
     {
@@ -133,9 +129,6 @@ class OSBaseTest extends TestCase
 
         $this->assertEquals('mv -f old-name.txt new-name.txt', $this->base->getStacked());
     }
-
-    // TODO: test rename() allowFail option
-
 
     public function testRenameIfExists()
     {
@@ -176,8 +169,6 @@ class OSBaseTest extends TestCase
         $this->base->setFacl('www/var', 'www-data', 'rwX', true, true);
         $this->assertEquals('setfacl -R -d -m u:"www-data":rwX www/var', $this->base->getStacked());
     }
-
-    // TODO: test setFacl() allowFail option
 
     public function testServiceReload()
     {
