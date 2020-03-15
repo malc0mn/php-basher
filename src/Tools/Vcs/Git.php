@@ -100,7 +100,7 @@ class Git extends OSBase
      *
      * @return self
      */
-    public function commit($message, $options = "")
+    public function commit($message, $options = '')
     {
         return $this->stack(['commit', "-m '$message'", $options]);
     }
