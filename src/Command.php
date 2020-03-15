@@ -43,7 +43,7 @@ class Command
         $this->executable = $executable;
 
         if (!is_array($options)) {
-            $options = [$options];
+            $options = explode(' ', $options);
         }
         // Removes all NULL, FALSE and 'empty strings' but leaves 0 (zero)
         // values.

@@ -58,6 +58,6 @@ class CommandTest extends TestCase
         $process = $command->toProcess();
 
         $this->assertInstanceOf(Process::class, $process);
-        $this->assertEquals("'test' '-f /path/to/file'", $process->getCommandLine());
+        $this->assertEquals("'test' '-f' '/path/to/file'", $process->getCommandLine());
     }
 }
