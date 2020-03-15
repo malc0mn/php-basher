@@ -287,10 +287,10 @@ abstract class CommandStack
 
         // Support non-chainable commands.
         if (empty($this->stack)) {
-            $this->stack[] = [
-                'exec' => $this->executable,
-                'opts' => array_merge($this->options, $this->arguments),
-            ];
+            $this->stack[] = new Command(
+                $this->executable,
+                array_merge($this->options, $this->arguments)
+            );
         }
 
         foreach ($this->stack as $command) {
