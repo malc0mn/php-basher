@@ -139,9 +139,9 @@ class Git extends OSBase
      *
      * @return self
      */
-    public function merge($branch)
+    public function merge($branch, $options = '')
     {
-        return $this->stack(['merge', $branch]);
+        return $this->stack(['merge', $options, $branch]);
     }
 
     /**
