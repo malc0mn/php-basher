@@ -168,6 +168,7 @@ class Git extends OSBase
         if ($message != '') {
             $message = "-m '$message'";
         }
+
         return $this->stack(['tag', $message, $tagName]);
     }
 }
