@@ -67,6 +67,7 @@ abstract class CommandStack
     protected function executable($executable)
     {
         $this->executable = $executable;
+
         return $this;
     }
 
@@ -80,6 +81,7 @@ abstract class CommandStack
     public function dir($dir)
     {
         $this->workingDirectory = $dir;
+
         return $this;
     }
 
@@ -101,6 +103,7 @@ abstract class CommandStack
             }
             $this->bashOptions[] = $option;
         }
+
         return $this;
     }
 
@@ -238,6 +241,7 @@ abstract class CommandStack
     public function chained($chained = true)
     {
         $this->chained = $chained;
+
         return $this;
     }
 
