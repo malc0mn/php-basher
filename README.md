@@ -86,7 +86,7 @@ $destination = 'build-' . date('Ymd-His');
 
 // Build the command stack we want to run INSIDE the container.
 $git = new Git();
-$commands = $git->cloneRepo(
+$commands = $git->clone(
       'https://github.com/malc0mn/php-basher',
       "/opt/approot/$destination",
       'master'
