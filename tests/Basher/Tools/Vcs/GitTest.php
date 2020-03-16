@@ -128,4 +128,16 @@ class GitTest extends TestCase
 
         $this->assertEquals("git tag -m 'Fixed some bugs' v1.0.3", $this->git->getStacked());
     }
+
+    public function testScript()
+    {
+        $this->git->add('-A')
+            ->commit('adding everything')
+            ->push('origin','master')
+            ->tag('0.6.0')
+            ->push('origin','0.6.0')
+        ;
+
+        $this->assertEquals("#!/bin/bash\n\ngit add -A\ngit commit -m 'adding everything'\ngit push origin master\ngit tag 0.6.0\ngit push origin 0.6.0\n", $this->git->generateScript());
+    }
 }
